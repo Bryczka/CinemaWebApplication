@@ -9,10 +9,9 @@ namespace CinemaWebApplication.Core.Repositories
     public interface IRepository<TEntity>
     {
         Task AddAsync(TEntity entity);
-        Task AddRangeAsync(IEnumerable<TEntity> entities);
-        Task<TEntity> GetAsync(int id);
+        Task<TEntity> GetAsync(Guid id);
         Task<IEnumerable<TEntity>> GetAllAsync();
-        Task UpdateAsync(TEntity entity);
+        Task Update(TEntity entity);
         Task DeleteAsync(TEntity entity);
     }
 }

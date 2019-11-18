@@ -1,4 +1,4 @@
-﻿using CinemaWebApplication.Core.Model;
+﻿using CinemaWebApplication.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
