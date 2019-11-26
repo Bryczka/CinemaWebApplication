@@ -7,5 +7,8 @@ namespace CinemaWebApplication.Core.Domain
 {
     public class Employee : User
     {
+        public Employee(Guid id, string name, string surname, string login, string password, string email) : base(id, name, surname, login, password, email)
+        {
+        }
     }
 }

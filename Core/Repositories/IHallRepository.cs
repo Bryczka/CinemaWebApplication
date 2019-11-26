@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CinemaWebApplication.Core.Repositories
 {
-    public interface IHallRepository
+    public interface IHallRepository : IRepository<Hall>
     {
     }
 }

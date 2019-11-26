@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace CinemaWebApplication.Core.Repositories
 {
-    public interface IFilmshowRepository
+    public interface IFilmshowRepository : IRepository<Filmshow>
     {
-        Task<IEnumerable<Filmshow>> GetFilmFilmshowsAsync(int id);
-        Task<IEnumerable<Filmshow>> GetFilmFilmshowsWithDateAsync(int id, DateTime date);
     }
 }

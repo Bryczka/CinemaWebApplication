@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CinemaWebApplication.Core.Domain
+namespace CinemaWebApplication.Services.DTO
 {
-    public class Ticket
+    public class TicketDTO
     {
         public Guid TicketId { get; set; }
         public int SeatNumber { get; set; }

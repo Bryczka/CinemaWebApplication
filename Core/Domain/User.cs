@@ -15,5 +15,15 @@ namespace CinemaWebApplication.Core.Domain
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Role { get; set; }
+
+        public User(Guid id, string name, string surname, string login, string password, string email)
+        {
+            Id = id;
+            Name = name;
+            Surname = surname;
+            Login = login;
+            Password = password;
+            Email = email;
+        }
     }
 }

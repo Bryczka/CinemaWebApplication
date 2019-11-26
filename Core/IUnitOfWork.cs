@@ -15,6 +15,7 @@ namespace CinemaWebApplication.Core
         IFilmshowRepository FilmshowRepository { get; }
         IHallRepository HallRepository { get; }
         ITicketRepository TicketRepository { get; }
+        ISeatRepository SeatRepository { get; }
         Task Complete();
     }
 }

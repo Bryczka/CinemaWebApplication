@@ -8,20 +8,9 @@ namespace CinemaWebApplication.Core.Domain
     public class Client : User
     {
 
-        public Client()
+        public Client(Guid id, string name, string surname, string login, string password, string email, string role) : base(id, name, surname, login, password, email)
         {
-
-        }
-
-        public Client(Guid id, string name, string surname, string login, string password, string email)
-        {
-            Id = id;
-            Name = name;
-            Surname = surname;
-            Login = login;
-            Password = password;
-            Email = email;
-            Role = "Client";
+            Role = role;
         }
 
         public ICollection<Ticket> Tickets { get; set; }

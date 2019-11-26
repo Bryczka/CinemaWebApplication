@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace CinemaWebApplication.Core.Repositories
 {
-    public interface ITicketRepository : IRepository<Ticket>
+    public interface ISeatRepository : IRepository<Seat>
     {
-        Task<IEnumerable<Ticket>> GetUserTicketsAsync(int id);
+        Task BookSeatAsync(Guid id);
+        Task UnbookSeatAsync(Guid id);
     }
 }

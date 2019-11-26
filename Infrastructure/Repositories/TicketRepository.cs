@@ -17,11 +17,6 @@ namespace CinemaWebApplication.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Ticket>> GetFilmshowFreeTicketsAsync(int id)
-        {
-            return await _context.Tickets.Where(x => x.FilmshowId.Equals(id) && !x.IsReserved).ToListAsync();
-        }
-
         public async Task<IEnumerable<Ticket>> GetUserTicketsAsync(int id)
         {
             return await _context.Tickets.Where(x => x.ClientId.Equals(id)).ToListAsync();

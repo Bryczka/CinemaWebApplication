@@ -10,6 +10,7 @@ namespace CinemaWebApplication.Core.Domain
         public Guid HallId { get; set; }
         public int SeatsCount { get; set; }
         public ICollection<Filmshow> Filmshows { get; set; }
+        public ICollection<Seat> Seats { get; set; }
 
     }
 }

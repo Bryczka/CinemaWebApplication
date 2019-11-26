@@ -27,7 +27,7 @@ namespace CinemaWebApplication.Services.Services
             var client = await _unitOfWork.ClientRepository.GetByEmail(email);
             client = await _unitOfWork.ClientRepository.GetByLogin(login);
 
-            client = new Client(new Guid(), name, surname, login, password, email);
+            client = new Client(new Guid(), name, surname, login, password, email, "Client");
         }          
     }
 }

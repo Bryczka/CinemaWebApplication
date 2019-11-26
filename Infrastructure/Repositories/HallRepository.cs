@@ -11,5 +11,6 @@ namespace CinemaWebApplication.Infrastructure.Repositories
     public class HallRepository : Repository<Hall>, IHallRepository
     {
         public HallRepository(DatabaseContext context) : base(context) { }
+
     }
 }

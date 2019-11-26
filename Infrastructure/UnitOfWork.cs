@@ -20,6 +20,8 @@ namespace CinemaWebApplication.Infrastructure
         public IHallRepository HallRepository { get; }
         public ITicketRepository TicketRepository { get; }
 
+        public ISeatRepository SeatRepository { get; }
+
 
         public UnitOfWork(DatabaseContext context)
         {
@@ -30,6 +32,7 @@ namespace CinemaWebApplication.Infrastructure
             FilmshowRepository = new FilmshowRepository(_context);
             HallRepository = new HallRepository(_context);
             TicketRepository = new TicketRepository(_context);
+            SeatRepository = new SeatRepository(_context);
 
         }
         public async Task Complete()
