@@ -20,10 +20,41 @@ namespace CinemaWebApplication.Api.Controllers
         {
             _filmService = filmService;
         }
-        [Authorize]
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FilmDTO>>> GetAllFilmsWithFilmShowsAsync()
         {
+            ////////////////////////////
+            //var film = new FilmDTO()
+            //{
+            //    Title = "Shrek",
+            //    Category = "Animation",
+            //    Length = "100",
+            //    Rating = 5
+            //};
+
+            //var film1 = new FilmDTO()
+            //{
+            //    Title = "Shrek 2",
+            //    Category = "Animation",
+            //    Length = "100",
+            //    Rating = 5
+            //};
+
+            //var film2 = new FilmDTO()
+            //{
+            //    Title = "Shrek 3",
+            //    Category = "Animation",
+            //    Length = "100",
+            //    Rating = 5
+            //};
+
+            //await _filmService.AddAsync(film);
+            //await _filmService.AddAsync(film1);
+            //await _filmService.AddAsync(film2);
+
+            ///////////////////////////////////
+
             var films = await _filmService.GetAllFilmsWithFilmShowsAsync();
             return Json(films);
         }

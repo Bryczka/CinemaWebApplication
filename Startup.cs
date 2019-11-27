@@ -66,6 +66,7 @@ namespace CinemaWebApplication
             });
 
             services.AddControllers();
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -79,6 +80,7 @@ namespace CinemaWebApplication
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCors(x => x.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {

@@ -2,7 +2,6 @@ C:\Users\mbry\source\repos\CinemaWebApplication\CinemaWebApplication\bin\Debug\n
 C:\Users\mbry\source\repos\CinemaWebApplication\CinemaWebApplication\bin\Debug\netcoreapp3.0\appsettings.json
 C:\Users\mbry\source\repos\CinemaWebApplication\CinemaWebApplication\bin\Debug\netcoreapp3.0\Properties\launchSettings.json
 C:\Users\mbry\source\repos\CinemaWebApplication\CinemaWebApplication\bin\Debug\netcoreapp3.0\CinemaWebApplication.exe
-C:\Users\mbry\source\repos\CinemaWebApplication\CinemaWebApplication\obj\Debug\netcoreapp3.0\CinemaWebApplication.csprojAssemblyReference.cache
 C:\Users\mbry\source\repos\CinemaWebApplication\CinemaWebApplication\obj\Debug\netcoreapp3.0\staticwebassets\CinemaWebApplication.StaticWebAssets.Manifest.cache
 C:\Users\mbry\source\repos\CinemaWebApplication\CinemaWebApplication\obj\Debug\netcoreapp3.0\staticwebassets\CinemaWebApplication.StaticWebAssets.xml
 C:\Users\mbry\source\repos\CinemaWebApplication\CinemaWebApplication\obj\Debug\netcoreapp3.0\CinemaWebApplication.AssemblyInfoInputs.cache
