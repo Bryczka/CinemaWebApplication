@@ -11,8 +11,7 @@ namespace CinemaWebApplication.Core.Database
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
-        public DbSet<Client> Clients { get; set; }
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Film> Films { get; set; }
         public DbSet<Filmshow> Filmshows { get; set; }
         public DbSet<Hall> Halls { get; set; }

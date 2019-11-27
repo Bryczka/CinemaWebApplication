@@ -9,8 +9,7 @@ namespace CinemaWebApplication.Core
 {
     public interface IUnitOfWork : IDisposable
     {
-        IClientRepository ClientRepository { get; }
-        IEmployeeRepository EmployeeRepository { get; }
+        IUserRepository UserRepository { get; }
         IFilmRepository FilmRepository { get; }
         IFilmshowRepository FilmshowRepository { get; }
         IHallRepository HallRepository { get; }

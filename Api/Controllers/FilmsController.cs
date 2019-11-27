@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CinemaWebApplication.Core.Domain;
 using CinemaWebApplication.Services.DTO;
 using CinemaWebApplication.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ namespace CinemaWebApplication.Api.Controllers
         {
             _filmService = filmService;
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FilmDTO>>> GetAllFilmsWithFilmShowsAsync()
         {

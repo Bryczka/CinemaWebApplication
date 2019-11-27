@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using CinemaWebApplication.Core;
 using CinemaWebApplication.Core.Database;
@@ -10,6 +11,7 @@ using CinemaWebApplication.Infrastructure;
 using CinemaWebApplication.Infrastructure.Repositories;
 using CinemaWebApplication.Services.IServices;
 using CinemaWebApplication.Services.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CinemaWebApplication
 {
@@ -37,19 +40,30 @@ namespace CinemaWebApplication
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddScoped<IClientRepository, ClientRepository>();
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFilmRepository, FilmRepository>();
             services.AddScoped<IFilmshowRepository, FilmshowRepository>();
             services.AddScoped<IHallRepository, HallRepository>();
             services.AddScoped<ITicketRepository, TicketRepository>();
 
-            services.AddScoped<IClientService, ClientService>();
-            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFilmService, FilmService>();
             services.AddScoped<IFilmshowService, FilmshowService>();
             services.AddScoped<IHallService, HallService>();
             services.AddScoped<ITicketService, TicketService>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+
+                };
+            });
 
             services.AddControllers();
         }
@@ -63,6 +77,9 @@ namespace CinemaWebApplication
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -13,21 +13,17 @@ namespace CinemaWebApplication.Infrastructure
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DatabaseContext _context;
-        public IClientRepository ClientRepository { get; }
-        public IEmployeeRepository EmployeeRepository { get; }
+        public IUserRepository UserRepository { get; }
         public IFilmRepository FilmRepository { get; }
         public IFilmshowRepository FilmshowRepository { get; }
         public IHallRepository HallRepository { get; }
         public ITicketRepository TicketRepository { get; }
-
         public ISeatRepository SeatRepository { get; }
-
 
         public UnitOfWork(DatabaseContext context)
         {
             _context = context;
-            ClientRepository = new ClientRepository(_context);
-            EmployeeRepository = new EmployeeRepository(_context);
+            UserRepository = new UserRepository(_context);
             FilmRepository = new FilmRepository(_context);
             FilmshowRepository = new FilmshowRepository(_context);
             HallRepository = new HallRepository(_context);
