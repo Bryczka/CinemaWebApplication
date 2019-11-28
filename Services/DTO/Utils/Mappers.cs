@@ -1,4 +1,5 @@
 ﻿using CinemaWebApplication.Core.Domain;
+using CinemaWebApplication.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace CinemaWebApplication.Services.DTO
             filmDTO.Length = film.Length;
             filmDTO.Rating = film.Rating;
             filmDTO.Filmshows = film.Filmshows;
+            filmDTO.ImageBase64 = Base64Converter.ConvertFileToBase64(film.ImagePath);
 
             return filmDTO;
         }
@@ -66,6 +68,18 @@ namespace CinemaWebApplication.Services.DTO
             ticketDTO.ClientId = ticket.ClientId;
 
             return ticketDTO;
+        }
+
+        public static UserRegisterDTO MapUserToRegisterDTO(User user)
+        {
+            var userRegisterDTO = new UserRegisterDTO();
+            userRegisterDTO.Login = user.Login;
+            userRegisterDTO.Name = user.Name;
+            userRegisterDTO.Email = user.Email;
+            userRegisterDTO.PhoneNumber = user.PhoneNumber;
+            userRegisterDTO.Surname = user.Surname;
+
+            return userRegisterDTO;
         }
     }
 }

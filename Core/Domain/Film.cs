@@ -12,6 +12,7 @@ namespace CinemaWebApplication.Core.Domain
         public string Category { get; set; }
         public string Length { get; set; }
         public int Rating { get; set; }
+        public string ImagePath { get; set; }
         public ICollection<Filmshow> Filmshows { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using CinemaWebApplication.Core.Domain;
 using CinemaWebApplication.Services.DTO;
 using CinemaWebApplication.Services.IServices;
+using CinemaWebApplication.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,8 @@ namespace CinemaWebApplication.Services.Services
                 Category = filmDTO.Category,
                 Length = filmDTO.Length,
                 Rating = filmDTO.Rating,
-                Filmshows = filmDTO.Filmshows
+                Filmshows = filmDTO.Filmshows,
+                ImagePath = Base64Converter.ConvertBase64ToFile(filmDTO.ImageBase64)
             };
             await _unitOfWork.FilmRepository.AddAsync(film);
         }

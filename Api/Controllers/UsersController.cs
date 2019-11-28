@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CinemaWebApplication.Services.DTO;
 using CinemaWebApplication.Services.IServices;
+using CinemaWebApplication.Services.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,10 +20,12 @@ namespace CinemaWebApplication.Api.Controllers
     public class UsersController : Controller
     {
         private IAuthService _authService;
+        private IUserService _userService;
         private readonly IConfiguration _config;
-        public UsersController(IAuthService authService, IConfiguration config)
+        public UsersController(IAuthService authService, IUserService userService, IConfiguration config)
         {
             _authService = authService;
+            _userService = userService;
             _config = config;
         }
 
