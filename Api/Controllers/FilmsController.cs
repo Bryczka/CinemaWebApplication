@@ -20,7 +20,7 @@ namespace CinemaWebApplication.Api.Controllers
         {
             _filmService = filmService;
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FilmDTO>>> GetAllFilmsWithFilmShowsAsync()
         {

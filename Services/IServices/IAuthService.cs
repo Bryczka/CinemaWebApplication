@@ -10,7 +10,7 @@ namespace CinemaWebApplication.Services.IServices
     public interface IAuthService
     {
         Task<UserRegisterDTO> RegisterAsync(UserRegisterDTO userRegisterDTO);
-        Task<string> LoginAsync(UserLoginDTO userLoginDTO);
+        Task<TokenDTO> LoginAsync(UserLoginDTO userLoginDTO);
         Task<bool> UserExist(string login);
     }
 }

@@ -43,6 +43,7 @@ namespace CinemaWebApplication.Api.Controllers
         public async Task<ActionResult> Login([FromBody]UserLoginDTO userLoginDTO)
         {
             var token = await _authService.LoginAsync(userLoginDTO);
+            if (token == null) { return Unauthorized();}
             return Ok(token);
         }
     }

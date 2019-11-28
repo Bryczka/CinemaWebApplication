@@ -23,7 +23,7 @@ namespace CinemaWebApplication.Services.Services
             _unitOfWork = unitOfWork;
             _config = config;
         }
-        public async Task<string> LoginAsync(UserLoginDTO userLoginDTO)
+        public async Task<TokenDTO> LoginAsync(UserLoginDTO userLoginDTO)
         {
             var user = await _unitOfWork.UserRepository.GetUserByLogin(userLoginDTO.Login);
 
@@ -49,7 +49,12 @@ namespace CinemaWebApplication.Services.Services
                     SigningCredentials = creds
                 });
 
-            return tokenHandler.WriteToken(token); ;
+            return new TokenDTO()
+            {
+                Token = tokenHandler.WriteToken(token),
+                Role = user.Role
+            };
+
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
