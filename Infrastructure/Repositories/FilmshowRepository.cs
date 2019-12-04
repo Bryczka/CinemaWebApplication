@@ -11,6 +11,10 @@ namespace CinemaWebApplication.Infrastructure.Repositories
 {
     public class FilmshowRepository : Repository<Filmshow>, IFilmshowRepository
     {
-        public FilmshowRepository(DatabaseContext context) : base(context) { }
+        private readonly DatabaseContext _context;
+        public FilmshowRepository(DatabaseContext context) : base(context)
+        {
+            _context = context;
+        }
     }
 }

@@ -45,6 +45,7 @@ namespace CinemaWebApplication
             services.AddScoped<IFilmshowRepository, FilmshowRepository>();
             services.AddScoped<IHallRepository, HallRepository>();
             services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<ISeatRepository, SeatRepository>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
@@ -52,6 +53,7 @@ namespace CinemaWebApplication
             services.AddScoped<IFilmshowService, FilmshowService>();
             services.AddScoped<IHallService, HallService>();
             services.AddScoped<ITicketService, TicketService>();
+            services.AddScoped<ISeatService, SeatService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {

@@ -28,7 +28,8 @@ namespace CinemaWebApplication.Services.Services
                 Length = filmDTO.Length,
                 Rating = filmDTO.Rating,
                 Filmshows = filmDTO.Filmshows,
-                ImagePath = Base64Converter.ConvertBase64ToFile(filmDTO.ImageBase64)
+                Description = filmDTO.Description,
+                ImagePath = Base64Converter.ConvertBase64ToFile(filmDTO.ImageBase64.Substring(23))
             };
             await _unitOfWork.FilmRepository.AddAsync(film);
         }
@@ -59,6 +60,7 @@ namespace CinemaWebApplication.Services.Services
             film.Length = filmDTO.Length;
             film.Rating = filmDTO.Rating;
             film.Filmshows = filmDTO.Filmshows;
+            film.Description = filmDTO.Description;
             await _unitOfWork.FilmRepository.Update(film);
         }
     }

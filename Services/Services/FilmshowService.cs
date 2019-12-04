@@ -19,8 +19,9 @@ namespace CinemaWebApplication.Services.Services
         public async Task AddAsync(FilmshowDTO filmshowDTO)
         {
             var filmshow = new Filmshow();
-            filmshow.FilmshowId = new Guid();
-            filmshow.FilmshowTime = filmshowDTO.FilmshowTime;
+            filmshow.FilmshowId = Guid.NewGuid();
+            filmshow.FilmshowTime = filmshowDTO.FilmshowDate;
+
             filmshow.HallId = filmshowDTO.HallId;
             filmshow.FilmId = filmshowDTO.FilmId;
             filmshow.Tickets = filmshowDTO.Tickets;
@@ -37,18 +38,29 @@ namespace CinemaWebApplication.Services.Services
         public async Task<IEnumerable<FilmshowDTO>> GetAllAsync()
         {
             var filmshows = await _unitOfWork.FilmshowRepository.GetAllAsync();
-            return filmshows.Select(Mappers.MapFilmshowToDTO).ToList();
+            List<FilmshowDTO> filmshowsDTO = new List<FilmshowDTO>();
+            foreach (Filmshow filmshow in filmshows)
+            {
+                var film = await _unitOfWork.FilmRepository.GetAsync(filmshow.FilmId);
+                var hall = await _unitOfWork.HallRepository.GetAsync(filmshow.HallId);
+                filmshowsDTO.Add(Mappers.MapFilmshowToDTO(filmshow, film, hall));
+            }
+
+            return filmshowsDTO;
         }
 
         public async Task<FilmshowDTO> GetAsync(Guid id)
         {
-            return Mappers.MapFilmshowToDTO(await _unitOfWork.FilmshowRepository.GetAsync(id));
+            var filmshow = await _unitOfWork.FilmshowRepository.GetAsync(id);
+            var film = await _unitOfWork.FilmRepository.GetAsync(filmshow.FilmId);
+            var hall = await _unitOfWork.HallRepository.GetAsync(filmshow.HallId);
+            return Mappers.MapFilmshowToDTO(await _unitOfWork.FilmshowRepository.GetAsync(id), film, hall);
         }
 
         public async Task Update(FilmshowDTO filmshowDTO)
         {
             var filmshow = await _unitOfWork.FilmshowRepository.GetAsync(filmshowDTO.FilmshowId);
-            filmshow.FilmshowTime = filmshowDTO.FilmshowTime;
+            filmshow.FilmshowTime = filmshowDTO.FilmshowDate;
             filmshow.HallId = filmshowDTO.HallId;
             filmshow.FilmId = filmshowDTO.FilmId;
             filmshow.Tickets = filmshowDTO.Tickets;

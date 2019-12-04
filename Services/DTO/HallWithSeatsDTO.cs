@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace CinemaWebApplication.Services.DTO
 {
-    public class HallDTO
+    public class HallWithSeatsDTO
     {
         public Guid HallId { get; set; }
         public string Name { get; set; }
-        public ICollection<Filmshow> Filmshows { get; set; }
-        public ICollection<Seat> Seats { get; set; }
+        public int RowsNumber { get; set; }
+        public int SeatsInRowNumber { get; set; }
+        public ICollection<SeatDTO> Seats { get; set; }
     }
 }

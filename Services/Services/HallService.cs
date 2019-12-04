@@ -16,41 +16,71 @@ namespace CinemaWebApplication.Services.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task AddAsync(HallDTO hallDTO)
+        public async Task AddWithSeatsAsync(HallWithSeatsDTO hallWithSeatsDTO)
         {
             var hall = new Hall();
-            hall.HallId = new Guid();
-            hall.Seats = hallDTO.Seats;
-            hall.Filmshows = hallDTO.Filmshows;
-            hall.SeatsCount = hallDTO.SeatsCount;
-
+            hall.HallId = hallWithSeatsDTO.HallId;
+            hall.Name = hallWithSeatsDTO.Name;
             await _unitOfWork.HallRepository.AddAsync(hall);
         }
 
-        public async Task DeleteAsync(HallDTO hallDTO)
+        public async Task DeleteHallWithSeatsAsync(Guid hallId)
         {
-            var hall = await _unitOfWork.HallRepository.GetAsync(hallDTO.HallId);
+            var hall = await _unitOfWork.HallRepository.GetAsync(hallId);
             await _unitOfWork.HallRepository.DeleteAsync(hall);
         }
 
-        public async Task<IEnumerable<HallDTO>> GetAllAsync()
+        public async Task<IEnumerable<HallDTO>> GetAllHallsWithSeatsAsync()
         {
-            var halls = await _unitOfWork.HallRepository.GetAllAsync();
+            var halls = await _unitOfWork.HallRepository.GetAllHallsWithSeatsAsync();
             return halls.Select(Mappers.MapHallToDTO).ToList();
         }
 
-        public async Task<HallDTO> GetAsync(Guid id)
+        public async Task<HallDTO> GetHallWithSeatsAsync(Guid id)
         {
-            return Mappers.MapHallToDTO(await _unitOfWork.HallRepository.GetAsync(id));
+            var hall = await _unitOfWork.HallRepository.GetHallWithSeatsAsync(id);
+            return Mappers.MapHallToDTO(hall);
         }
 
-        public async Task Update(HallDTO hallDTO)
-        {
-            var hall = await _unitOfWork.HallRepository.GetAsync(hallDTO.HallId);
-            hall.Seats = hallDTO.Seats;
-            hall.SeatsCount = hallDTO.SeatsCount;
-            hall.Filmshows = hallDTO.Filmshows;
-            await _unitOfWork.HallRepository.Update(hall);
-        }
+        //public async Task AddAsync(HallDTO hallDTO)
+        //{
+        //    var hall = new Hall();
+        //    hall.HallId = Guid.NewGuid();
+        //    hall.Seats = hallDTO.Seats;
+        //    hall.Filmshows = hallDTO.Filmshows;
+
+        //    await _unitOfWork.HallRepository.AddAsync(hall);
+        //}
+
+
+
+        //public async Task DeleteAsync(HallDTO hallDTO)
+        //{
+        //    var hall = await _unitOfWork.HallRepository.GetAsync(hallDTO.HallId);
+        //    await _unitOfWork.HallRepository.DeleteAsync(hall);
+        //}
+
+
+
+        //public async Task<IEnumerable<HallDTO>> GetAllAsync()
+        //{
+        //    var halls = await _unitOfWork.HallRepository.GetAllAsync();
+        //    return halls.Select(Mappers.MapHallToDTO).ToList();
+        //}
+
+        //public async Task<HallDTO> GetAsync(Guid id)
+        //{
+        //    return Mappers.MapHallToDTO(await _unitOfWork.HallRepository.GetAsync(id));
+        //}
+
+
+
+        //public async Task Update(HallDTO hallDTO)
+        //{
+        //    var hall = await _unitOfWork.HallRepository.GetAsync(hallDTO.HallId);
+        //    hall.Seats = hallDTO.Seats;
+        //    hall.Filmshows = hallDTO.Filmshows;
+        //    await _unitOfWork.HallRepository.Update(hall);
+        //}
     }
 }

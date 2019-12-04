@@ -1,6 +1,7 @@
 ﻿using CinemaWebApplication.Core.Database;
 using CinemaWebApplication.Core.Domain;
 using CinemaWebApplication.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,13 @@ namespace CinemaWebApplication.Infrastructure.Repositories
             _context.Seats.Update(seat);
             await _context.SaveChangesAsync();
         }
+
+        //public async Task DeleteSeatByHallAsync(Guid HallId)
+        //{
+        //    var seats = await _context.Seats.Where(x => x.HallId == HallId).ToListAsync();
+        //    _context.Seats.RemoveRange(seats);
+        //    await _context.SaveChangesAsync();
+        //}
 
         public async Task UnbookSeatAsync(Guid id)
         {

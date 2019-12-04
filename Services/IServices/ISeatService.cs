@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace CinemaWebApplication.Services.IServices
 {
-    interface ISeatService
+    public interface ISeatService
     {
         Task BookSeatAsync(Guid id);
         Task UnbookSeatAsync(Guid id);
-        Task AddAsync(SeatDTO seatDTO);
-        Task<SeatDTO> GetAsync(Guid id);
-        Task<IEnumerable<SeatDTO>> GetAllAsync();
-        Task Update(SeatDTO seatDTO);
-        Task DeleteAsync(SeatDTO seatDTO);
+        //Task AddAsync(SeatDTO seatDTO);
+        Task AddManyWithHallAsync(HallWithSeatsDTO hallWithSeatsDTO);
+        //Task<SeatDTO> GetAsync(Guid id);
+        //Task<IEnumerable<SeatDTO>> GetAllAsync();
+        //Task Update(SeatDTO seatDTO);
+        //Task DeleteAsync(SeatDTO seatDTO);
     }
 }

@@ -10,5 +10,6 @@ namespace CinemaWebApplication.Core.Repositories
     {
         Task BookSeatAsync(Guid id);
         Task UnbookSeatAsync(Guid id);
+        //Task DeleteSeatByHallAsync(Guid HallId);
     }
 }

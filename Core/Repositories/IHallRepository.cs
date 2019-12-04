@@ -8,5 +8,7 @@ namespace CinemaWebApplication.Core.Repositories
 {
     public interface IHallRepository : IRepository<Hall>
     {
+        Task<Hall> GetHallWithSeatsAsync(Guid id);
+        Task<IEnumerable<Hall>> GetAllHallsWithSeatsAsync();
     }
 }

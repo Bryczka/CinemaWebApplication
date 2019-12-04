@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CinemaWebApplication.Services.IServices
 {
-    interface IFilmshowService
+    public interface IFilmshowService
     {
         Task AddAsync(FilmshowDTO filmshowDTO);
         Task<FilmshowDTO> GetAsync(Guid id);

@@ -18,6 +18,7 @@ namespace CinemaWebApplication.Services.DTO
             filmDTO.Length = film.Length;
             filmDTO.Rating = film.Rating;
             filmDTO.Filmshows = film.Filmshows;
+            filmDTO.Description = film.Description;
             filmDTO.ImageBase64 = Base64Converter.ConvertFileToBase64(film.ImagePath);
 
             return filmDTO;
@@ -35,24 +36,43 @@ namespace CinemaWebApplication.Services.DTO
             return seatDTO;
         }
 
+        public static ICollection<Seat> MapSeatDTOListToSeatList(ICollection<SeatDTO> seatDTOs)
+        {
+            List<Seat> seats = new List<Seat>();
+            foreach(SeatDTO seatDTO in seatDTOs)
+            {
+                var seat = new Seat();
+                seat.SeatId = seatDTO.SeatId;
+                seat.IsOccupied = seatDTO.IsOccupied;
+                seat.Row = seatDTO.Row;
+                seat.SeatNumber = seatDTO.SeatNumber;
+                seat.HallId = seatDTO.HallId;
+                seats.Add(seat);
+            }
+
+            return seats;
+        }
+
         public static HallDTO MapHallToDTO(Hall hall)
         {
             var hallDTO = new HallDTO();
             hallDTO.HallId = hall.HallId;
-            hall.SeatsCount = hall.SeatsCount;
+            hallDTO.Name = hall.Name;
             hallDTO.Seats = hall.Seats;
             hallDTO.Filmshows = hall.Filmshows;
 
             return hallDTO;
         }
 
-        public static FilmshowDTO MapFilmshowToDTO(Filmshow filmshow)
+        public static FilmshowDTO MapFilmshowToDTO(Filmshow filmshow, Film film, Hall hall)
         {
             var filmshowDTO = new FilmshowDTO();
             filmshowDTO.FilmshowId = filmshow.FilmshowId;
-            filmshowDTO.FilmshowTime = filmshow.FilmshowTime;
+            filmshowDTO.FilmshowDate = filmshow.FilmshowTime;
             filmshowDTO.FilmId = filmshow.FilmId;
+            filmshowDTO.FilmTitle = film.Title;
             filmshowDTO.HallId = filmshow.HallId;
+            filmshowDTO.HallName = hall.Name;
             filmshowDTO.Tickets = filmshow.Tickets;
 
             return filmshowDTO;
