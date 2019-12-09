@@ -8,6 +8,8 @@ namespace CinemaWebApplication.Core.Repositories
 {
     public interface ITicketRepository : IRepository<Ticket>
     {
-        Task<IEnumerable<Ticket>> GetUserTicketsAsync(int id);
+        Task<IEnumerable<Ticket>> GetUserTicketsAsync(Guid id);
+        Task AddTicketsAsync(IEnumerable<Ticket> ticketsToAdd);
+
     }
 }

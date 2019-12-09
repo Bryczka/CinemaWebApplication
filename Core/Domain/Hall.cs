@@ -9,6 +9,8 @@ namespace CinemaWebApplication.Core.Domain
     {
         public Guid HallId { get; set; }
         public string Name { get; set; }
+        public int RowsNumber { get; set; }
+        public int SeatsInRowNumber { get; set; }
         public ICollection<Filmshow> Filmshows { get; set; }
         public ICollection<Seat> Seats { get; set; }
 

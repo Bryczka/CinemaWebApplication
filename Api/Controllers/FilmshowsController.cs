@@ -35,9 +35,16 @@ namespace CinemaWebApplication.Api.Controllers
         }
 
         [HttpGet("filmshow/{id}")]
-        public async Task<ActionResult<FilmDTO>> GetFilmShowsAsync(Guid id)
+        public async Task<ActionResult<FilmshowDTO>> GetFilmshowsAsync(Guid id)
         {
             var film = await _filmshowService.GetAsync(id);
+            return Json(film);
+        }
+
+        [HttpGet("filmshow/film/{id}")]
+        public async Task<ActionResult<IEnumerable<FilmshowDTO>>> GetAllFilmshowsOfFilmAsync(Guid id)
+        {
+            var film = await _filmshowService.GetAllFilmshowsOfFilmAsync(id); 
             return Json(film);
         }
 

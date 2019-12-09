@@ -16,5 +16,16 @@ namespace CinemaWebApplication.Infrastructure.Repositories
         {
             _context = context;
         }
+
+        public async Task<IEnumerable<Filmshow>> GetAllFilmshowsOfFilmAsync(Guid id)
+        {
+            return await _context.Filmshows.Where(x => x.FilmId == id).ToListAsync();
+
+        }
+
+        public async Task<IEnumerable<Filmshow>> GetAllFilmshowsOfFilmDateAsync(Guid id, DateTime dateTime)
+        {
+            return await _context.Filmshows.Where(x => x.FilmId == id).Where(x => x.FilmshowTime.Date == dateTime.Date).ToListAsync();
+        }
     }
 }

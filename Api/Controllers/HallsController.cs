@@ -22,7 +22,7 @@ namespace CinemaWebApplication.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<HallDTO>>> GetAllHallsWithSeatsAsync()
+        public async Task<ActionResult<IEnumerable<HallWithSeatsDTO>>> GetAllHallsWithSeatsAsync()
         {
             var halls = await _hallService.GetAllHallsWithSeatsAsync();
             return Json(halls);
@@ -47,7 +47,7 @@ namespace CinemaWebApplication.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<HallDTO>> GetFilmWithFilmShowsAsync(Guid id)
+        public async Task<ActionResult<HallWithSeatsDTO>> GetHallWithSeatsAsync(Guid id)
         {
             var hall = await _hallService.GetHallWithSeatsAsync(id);
             return Json(hall);

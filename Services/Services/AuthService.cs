@@ -34,7 +34,8 @@ namespace CinemaWebApplication.Services.Services
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Login)
+                new Claim(ClaimTypes.Name, user.Login),
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("appSettings:Token").Value));
@@ -51,8 +52,7 @@ namespace CinemaWebApplication.Services.Services
 
             return new TokenDTO()
             {
-                Token = tokenHandler.WriteToken(token),
-                Role = user.Role
+                Token = tokenHandler.WriteToken(token)
             };
 
         }

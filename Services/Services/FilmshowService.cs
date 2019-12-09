@@ -49,6 +49,32 @@ namespace CinemaWebApplication.Services.Services
             return filmshowsDTO;
         }
 
+        public async Task<IEnumerable<FilmshowDTO>> GetAllFilmshowsOfFilmAsync(Guid id)
+        {
+            var filmshows = await _unitOfWork.FilmshowRepository.GetAllFilmshowsOfFilmAsync(id);
+            List<FilmshowDTO> filmshowsDTO = new List<FilmshowDTO>();
+            foreach (Filmshow filmshow in filmshows)
+            {
+                var film = await _unitOfWork.FilmRepository.GetAsync(filmshow.FilmId);
+                var hall = await _unitOfWork.HallRepository.GetAsync(filmshow.HallId);
+                filmshowsDTO.Add(Mappers.MapFilmshowToDTO(filmshow, film, hall));
+            }
+            return filmshowsDTO;
+        }
+
+        public async Task<IEnumerable<FilmshowDTO>> GetAllFilmshowsOfFilmAsync(Guid id, DateTime dateTime)
+        {
+            var filmshows = await _unitOfWork.FilmshowRepository.GetAllFilmshowsOfFilmDateAsync(id, dateTime);
+            List<FilmshowDTO> filmshowsDTO = new List<FilmshowDTO>();
+            foreach (Filmshow filmshow in filmshows)
+            {
+                var film = await _unitOfWork.FilmRepository.GetAsync(filmshow.FilmId);
+                var hall = await _unitOfWork.HallRepository.GetAsync(filmshow.HallId);
+                filmshowsDTO.Add(Mappers.MapFilmshowToDTO(filmshow, film, hall));
+            }
+            return filmshowsDTO;
+        }
+
         public async Task<FilmshowDTO> GetAsync(Guid id)
         {
             var filmshow = await _unitOfWork.FilmshowRepository.GetAsync(id);

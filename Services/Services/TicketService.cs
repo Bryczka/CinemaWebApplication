@@ -21,11 +21,30 @@ namespace CinemaWebApplication.Services.Services
             var ticket = new Ticket();
             ticket.TicketId = new Guid();
             ticket.SeatNumber = ticketDTO.SeatNumber;
+            ticket.RowNumber = ticketDTO.RowNumber;
             ticket.IsPaid = ticketDTO.IsPaid;
             ticket.FilmshowId = ticketDTO.FilmshowId;
             ticket.ClientId = ticketDTO.ClientId;
 
             await _unitOfWork.TicketRepository.AddAsync(ticket);
+        }
+
+        public async Task AddTicketsAsync(IEnumerable<TicketDTO> ticketsToAdd)
+        {
+            List<Ticket> tickets = new List<Ticket>();
+            foreach(TicketDTO ticketDTO in ticketsToAdd)
+            {
+                var ticket = new Ticket();
+                ticket.TicketId = new Guid();
+                ticket.SeatNumber = ticketDTO.SeatNumber;
+                ticket.RowNumber = ticketDTO.RowNumber;
+                ticket.IsPaid = ticketDTO.IsPaid;
+                ticket.FilmshowId = ticketDTO.FilmshowId;
+                ticket.ClientId = ticketDTO.ClientId;
+                tickets.Add(ticket);
+            }
+
+            await _unitOfWork.TicketRepository.AddTicketsAsync(tickets);
         }
 
         public async Task DeleteAsync(TicketDTO ticketDTO)
@@ -50,6 +69,7 @@ namespace CinemaWebApplication.Services.Services
             var ticket = await _unitOfWork.TicketRepository.GetAsync(ticketDTO.TicketId);
             ticket.IsPaid = ticketDTO.IsPaid;
             ticket.SeatNumber = ticketDTO.SeatNumber;
+            ticket.RowNumber = ticketDTO.RowNumber;
             ticket.FilmshowId = ticketDTO.FilmshowId;
             ticket.ClientId = ticketDTO.ClientId;
             await _unitOfWork.TicketRepository.Update(ticket);

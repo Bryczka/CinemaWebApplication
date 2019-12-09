@@ -21,6 +21,8 @@ namespace CinemaWebApplication.Services.Services
             var hall = new Hall();
             hall.HallId = hallWithSeatsDTO.HallId;
             hall.Name = hallWithSeatsDTO.Name;
+            hall.RowsNumber = hallWithSeatsDTO.RowsNumber;
+            hall.SeatsInRowNumber = hallWithSeatsDTO.SeatsInRowNumber;
             await _unitOfWork.HallRepository.AddAsync(hall);
         }
 
@@ -30,16 +32,19 @@ namespace CinemaWebApplication.Services.Services
             await _unitOfWork.HallRepository.DeleteAsync(hall);
         }
 
-        public async Task<IEnumerable<HallDTO>> GetAllHallsWithSeatsAsync()
+        public async Task<IEnumerable<HallWithSeatsDTO>> GetAllHallsWithSeatsAsync()
         {
             var halls = await _unitOfWork.HallRepository.GetAllHallsWithSeatsAsync();
             return halls.Select(Mappers.MapHallToDTO).ToList();
         }
 
-        public async Task<HallDTO> GetHallWithSeatsAsync(Guid id)
+        public async Task<HallWithSeatsDTO> GetHallWithSeatsAsync(Guid id)
         {
             var hall = await _unitOfWork.HallRepository.GetHallWithSeatsAsync(id);
+            var seats = hall.Seats.OrderBy(x => x.SeatNumber).ToList();
+            hall.Seats = seats;
             return Mappers.MapHallToDTO(hall);
+ 
         }
 
         //public async Task AddAsync(HallDTO hallDTO)

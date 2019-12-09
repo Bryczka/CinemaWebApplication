@@ -13,5 +13,7 @@ namespace CinemaWebApplication.Services.IServices
         Task<IEnumerable<FilmshowDTO>> GetAllAsync();
         Task Update(FilmshowDTO filmshowDTO);
         Task DeleteAsync(FilmshowDTO filmshowDTO);
+        Task<IEnumerable<FilmshowDTO>> GetAllFilmshowsOfFilmAsync(Guid id);
+        Task<IEnumerable<FilmshowDTO>> GetAllFilmshowsOfFilmAsync(Guid id, DateTime dateTime);
     }
 }

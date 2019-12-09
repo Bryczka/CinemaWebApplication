@@ -13,5 +13,6 @@ namespace CinemaWebApplication.Services.DTO
         public int RowsNumber { get; set; }
         public int SeatsInRowNumber { get; set; }
         public ICollection<SeatDTO> Seats { get; set; }
+        public ICollection<FilmshowDTO> Filmshows { get; set; }
     }
 }

@@ -36,31 +36,31 @@ namespace CinemaWebApplication.Services.DTO
             return seatDTO;
         }
 
-        public static ICollection<Seat> MapSeatDTOListToSeatList(ICollection<SeatDTO> seatDTOs)
-        {
-            List<Seat> seats = new List<Seat>();
-            foreach(SeatDTO seatDTO in seatDTOs)
-            {
-                var seat = new Seat();
-                seat.SeatId = seatDTO.SeatId;
-                seat.IsOccupied = seatDTO.IsOccupied;
-                seat.Row = seatDTO.Row;
-                seat.SeatNumber = seatDTO.SeatNumber;
-                seat.HallId = seatDTO.HallId;
-                seats.Add(seat);
-            }
+        //public static ICollection<Seat> MapSeatDTOListToSeatList(ICollection<SeatDTO> seatDTOs)
+        //{
+        //    List<Seat> seats = new List<Seat>();
+        //    foreach(SeatDTO seatDTO in seatDTOs)
+        //    {
+        //        var seat = new Seat();
+        //        seat.SeatId = seatDTO.SeatId;
+        //        seat.IsOccupied = seatDTO.IsOccupied;
+        //        seat.Row = seatDTO.Row;
+        //        seat.SeatNumber = seatDTO.SeatNumber;
+        //        seat.HallId = seatDTO.HallId;
+        //        seats.Add(seat);
+        //    }
 
-            return seats;
-        }
+        //    return seats;
+        //}
 
-        public static HallDTO MapHallToDTO(Hall hall)
+        public static HallWithSeatsDTO MapHallToDTO(Hall hall)
         {
-            var hallDTO = new HallDTO();
+            var hallDTO = new HallWithSeatsDTO();
             hallDTO.HallId = hall.HallId;
             hallDTO.Name = hall.Name;
-            hallDTO.Seats = hall.Seats;
-            hallDTO.Filmshows = hall.Filmshows;
-
+            hallDTO.Seats = hall.Seats.Select(MapSeatToDTO).ToList();
+            hallDTO.RowsNumber = hall.RowsNumber;
+            hallDTO.SeatsInRowNumber = hall.SeatsInRowNumber;
             return hallDTO;
         }
 
