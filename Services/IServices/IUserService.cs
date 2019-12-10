@@ -9,5 +9,6 @@ namespace CinemaWebApplication.Services.IServices
     public interface IUserService
     {
         Task<UserRegisterDTO> GetRegiserUser(Guid id);
+
     }
 }

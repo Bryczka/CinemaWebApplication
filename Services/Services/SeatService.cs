@@ -51,9 +51,10 @@ namespace CinemaWebApplication.Services.Services
             }
         }
 
-        public async Task BookSeatAsync(Guid id)
+        public async Task BookSeatAsync(List<SeatDTO> seatsDTO)
         {
-            await _unitOfWork.SeatRepository.BookSeatAsync(id);
+            List<Seat> seats = seatsDTO.Select(Mappers.MapDTOToSeat).ToList();
+            await _unitOfWork.SeatRepository.BookSeatAsync(seats);
         }
 
         //public async Task DeleteAsync(SeatDTO seatDTO)
@@ -73,9 +74,10 @@ namespace CinemaWebApplication.Services.Services
         //    return Mappers.MapSeatToDTO(await _unitOfWork.SeatRepository.GetAsync(id));
         //}
 
-        public async Task UnbookSeatAsync(Guid id)
+        public async Task UnbookSeatAsync(List<SeatDTO> seatsDTO)
         {
-            await _unitOfWork.SeatRepository.UnbookSeatAsync(id);
+            List<Seat> seats = seatsDTO.Select(Mappers.MapDTOToSeat).ToList();
+            await _unitOfWork.SeatRepository.UnbookSeatAsync(seats);
         }
 
         //public async Task Update(SeatDTO seatDTO)

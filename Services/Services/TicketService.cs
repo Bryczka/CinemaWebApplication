@@ -59,6 +59,12 @@ namespace CinemaWebApplication.Services.Services
             return tickets.Select(Mappers.MapTicketToDTO).ToList();
         }
 
+        public async Task<IEnumerable<TicketDTO>> GetAllUserTickets(Guid id)
+        {
+            var tickets = await _unitOfWork.TicketRepository.GetAllUserTickets(id);
+            return tickets.Select(Mappers.MapTicketToDTO).ToList();
+        }
+
         public async Task<TicketDTO> GetAsync(Guid id)
         {
             return Mappers.MapTicketToDTO(await _unitOfWork.TicketRepository.GetAsync(id));

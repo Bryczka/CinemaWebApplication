@@ -17,28 +17,17 @@ namespace CinemaWebApplication.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task BookSeatAsync(Guid id)
+        public async Task BookSeatAsync(List<Seat> seats)
         {
-            var seat = new Seat();
-            seat.SeatId = id;
-            seat.IsOccupied = true;
-            _context.Seats.Update(seat);
+            seats.ForEach(x => x.IsOccupied = true);
+            _context.Seats.UpdateRange(seats);
             await _context.SaveChangesAsync();
         }
 
-        //public async Task DeleteSeatByHallAsync(Guid HallId)
-        //{
-        //    var seats = await _context.Seats.Where(x => x.HallId == HallId).ToListAsync();
-        //    _context.Seats.RemoveRange(seats);
-        //    await _context.SaveChangesAsync();
-        //}
-
-        public async Task UnbookSeatAsync(Guid id)
+        public async Task UnbookSeatAsync(List<Seat> seats)
         {
-            var seat = new Seat();
-            seat.SeatId = id;
-            seat.IsOccupied = false;
-            _context.Seats.Update(seat);
+            seats.ForEach(x => x.IsOccupied = false);
+            _context.Seats.UpdateRange(seats);
             await _context.SaveChangesAsync();
         }
     }

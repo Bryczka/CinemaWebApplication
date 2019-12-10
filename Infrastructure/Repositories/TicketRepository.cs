@@ -23,6 +23,11 @@ namespace CinemaWebApplication.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Ticket>> GetAllUserTickets(Guid id)
+        {
+            return await _context.Tickets.Where(x => x.ClientId == id).ToListAsync();
+        }
+
         public async Task<IEnumerable<Ticket>> GetUserTicketsAsync(Guid id)
         {
             return await _context.Tickets.Where(x => x.ClientId.Equals(id)).ToListAsync();

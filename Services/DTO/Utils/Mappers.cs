@@ -36,22 +36,17 @@ namespace CinemaWebApplication.Services.DTO
             return seatDTO;
         }
 
-        //public static ICollection<Seat> MapSeatDTOListToSeatList(ICollection<SeatDTO> seatDTOs)
-        //{
-        //    List<Seat> seats = new List<Seat>();
-        //    foreach(SeatDTO seatDTO in seatDTOs)
-        //    {
-        //        var seat = new Seat();
-        //        seat.SeatId = seatDTO.SeatId;
-        //        seat.IsOccupied = seatDTO.IsOccupied;
-        //        seat.Row = seatDTO.Row;
-        //        seat.SeatNumber = seatDTO.SeatNumber;
-        //        seat.HallId = seatDTO.HallId;
-        //        seats.Add(seat);
-        //    }
+        public static Seat MapDTOToSeat(SeatDTO seatDTO)
+        {
+            var seat = new Seat();
+            seat.SeatId = seatDTO.SeatId;
+            seat.IsOccupied = seatDTO.IsOccupied;
+            seat.Row = seatDTO.Row;
+            seat.SeatNumber = seatDTO.SeatNumber;
+            seat.HallId = seatDTO.HallId;
 
-        //    return seats;
-        //}
+            return seat;
+        }
 
         public static HallWithSeatsDTO MapHallToDTO(Hall hall)
         {

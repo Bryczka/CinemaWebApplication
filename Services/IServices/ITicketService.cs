@@ -15,5 +15,6 @@ namespace CinemaWebApplication.Services.IServices
         Task DeleteAsync(TicketDTO ticketDTO);
 
         Task AddTicketsAsync(IEnumerable<TicketDTO> ticketsToAdd);
+        Task<IEnumerable<TicketDTO>> GetAllUserTickets(Guid id);
     }
 }
