@@ -16,19 +16,5 @@ namespace CinemaWebApplication.Infrastructure.Repositories
         {
             _context = context;
         }
-
-        //public async Task BookSeatAsync(List<Seat> seats)
-        //{
-        //    seats.ForEach(x => x.IsOccupied = true);
-        //    _context.Seats.UpdateRange(seats);
-        //    await _context.SaveChangesAsync();
-        //}
-
-        //public async Task UnbookSeatAsync(List<Seat> seats)
-        //{
-        //    seats.ForEach(x => x.IsOccupied = false);
-        //    _context.Seats.UpdateRange(seats);
-        //    await _context.SaveChangesAsync();
-        //}
     }
 }

@@ -40,13 +40,5 @@ namespace CinemaWebApplication.Api.Controllers
 
             return Ok();
         }
-
-        //[HttpPut("seats")]
-        //public async Task<ActionResult> BookSeat([FromBody]List<SeatDTO> seats)
-        //{
-        //    await _seatService.BookSeatAsync(seats);
-
-        //    return Ok();
-        //}
     }
 }

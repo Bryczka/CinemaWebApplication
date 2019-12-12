@@ -12,8 +12,6 @@ namespace CinemaWebApplication.Services.DTO
         public int RowNumber { get; set; }
         public bool IsPaid { get; set; }
         public Guid UserId { get; set; }
-        //public UserDTO User { get; set; }
         public Guid FilmshowId { get; set; }
-        //public FilmshowDTO Filmshow { get; set; }
     }
 }

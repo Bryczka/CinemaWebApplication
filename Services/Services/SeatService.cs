@@ -32,24 +32,11 @@ namespace CinemaWebApplication.Services.Services
                         SeatId = Guid.NewGuid(),
                         SeatNumber = i,
                         Row = j,
-                        //IsOccupied = false,
                         HallId = hallWithSeatsDTO.HallId
                     };
                     await _unitOfWork.SeatRepository.AddAsync(seat);
                 }
             }
         }
-
-        //public async Task BookSeatAsync(List<SeatDTO> seatsDTO)
-        //{
-        //    List<Seat> seats = _mapper.Map<IEnumerable<Seat>>(seatsDTO).ToList();
-        //    await _unitOfWork.SeatRepository.BookSeatAsync(seats);
-        //}
-
-        //public async Task UnbookSeatAsync(List<SeatDTO> seatsDTO)
-        //{
-        //    List<Seat> seats = _mapper.Map<IEnumerable<Seat>>(seatsDTO).ToList();
-        //    await _unitOfWork.SeatRepository.UnbookSeatAsync(seats);
-        //}
     }
 }
