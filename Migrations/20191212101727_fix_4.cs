@@ -2,23 +2,23 @@
 
 namespace CinemaWebApplication.Migrations
 {
-    public partial class deleteSeatNumberInHall : Migration
+    public partial class fix_4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "SeatsCount",
-                table: "Halls");
+                name: "IsOccupied",
+                table: "Seats");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "SeatsCount",
-                table: "Halls",
-                type: "int",
+            migrationBuilder.AddColumn<bool>(
+                name: "IsOccupied",
+                table: "Seats",
+                type: "bit",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: false);
         }
     }
 }

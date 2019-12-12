@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaWebApplication.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191209151110_changeTicketModel")]
-    partial class changeTicketModel
+    [Migration("20191211182230_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,13 +56,13 @@ namespace CinemaWebApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FilmId")
+                    b.Property<Guid?>("FilmId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("FilmshowTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("HallId")
+                    b.Property<Guid?>("HallId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("FilmshowId");
@@ -100,7 +100,7 @@ namespace CinemaWebApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("HallId")
+                    b.Property<Guid?>("HallId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsOccupied")
@@ -125,10 +125,7 @@ namespace CinemaWebApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FilmshowId")
+                    b.Property<Guid?>("FilmshowId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsPaid")
@@ -189,37 +186,29 @@ namespace CinemaWebApplication.Migrations
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Filmshow", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Film", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Film", "Film")
                         .WithMany("Filmshows")
-                        .HasForeignKey("FilmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FilmId");
 
-                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", "Hall")
                         .WithMany("Filmshows")
-                        .HasForeignKey("HallId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HallId");
                 });
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Seat", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", "Hall")
                         .WithMany("Seats")
-                        .HasForeignKey("HallId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HallId");
                 });
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Ticket", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Filmshow", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Filmshow", "Filmshow")
                         .WithMany("Tickets")
-                        .HasForeignKey("FilmshowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FilmshowId");
 
-                    b.HasOne("CinemaWebApplication.Core.Domain.User", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.User", "User")
                         .WithMany("Tickets")
                         .HasForeignKey("UserId");
                 });

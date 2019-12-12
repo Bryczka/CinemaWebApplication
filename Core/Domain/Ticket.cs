@@ -11,7 +11,9 @@ namespace CinemaWebApplication.Core.Domain
         public int SeatNumber { get; set; }
         public int RowNumber { get; set; }
         public bool IsPaid { get; set; }
-        public Guid ClientId { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; }
         public Guid FilmshowId { get; set; }
+        public Filmshow Filmshow { get; set; }
     }
 }

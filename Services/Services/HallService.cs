@@ -1,4 +1,5 @@
-﻿using CinemaWebApplication.Core;
+﻿using AutoMapper;
+using CinemaWebApplication.Core;
 using CinemaWebApplication.Core.Domain;
 using CinemaWebApplication.Services.DTO;
 using CinemaWebApplication.Services.IServices;
@@ -12,9 +13,11 @@ namespace CinemaWebApplication.Services.Services
     public class HallService : IHallService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public HallService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public HallService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public async Task AddWithSeatsAsync(HallWithSeatsDTO hallWithSeatsDTO)
         {
@@ -35,57 +38,36 @@ namespace CinemaWebApplication.Services.Services
         public async Task<IEnumerable<HallWithSeatsDTO>> GetAllHallsWithSeatsAsync()
         {
             var halls = await _unitOfWork.HallRepository.GetAllHallsWithSeatsAsync();
-            return halls.Select(Mappers.MapHallToDTO).ToList();
+            return _mapper.Map<IEnumerable<HallWithSeatsDTO>>(halls);
         }
 
         public async Task<HallWithSeatsDTO> GetHallWithSeatsAsync(Guid id)
         {
-            var hall = await _unitOfWork.HallRepository.GetHallWithSeatsAsync(id);
-            var seats = hall.Seats.OrderBy(x => x.SeatNumber).ToList();
-            hall.Seats = seats;
-            return Mappers.MapHallToDTO(hall);
- 
+                var hall = await _unitOfWork.HallRepository.GetHallWithSeatsAsync(id);
+                var seats = hall.Seats.OrderBy(x => x.SeatNumber).ToList();
+                hall.Seats = seats;
+                return _mapper.Map<HallWithSeatsDTO>(hall);
         }
 
-        //public async Task AddAsync(HallDTO hallDTO)
-        //{
-        //    var hall = new Hall();
-        //    hall.HallId = Guid.NewGuid();
-        //    hall.Seats = hallDTO.Seats;
-        //    hall.Filmshows = hallDTO.Filmshows;
+        public async Task<HallWithSeatsForFilmshowDTO> GetHallWithSeatsForFilmshowAsync(Guid id, Guid filmshowId)
+        {
+            var hall = await _unitOfWork.HallRepository.GetHallWithSeatsAsync(id);
+            var filmshow = await _unitOfWork.FilmshowRepository.GetFilmshowWithTicketsAsync(filmshowId);
+            var seats = hall.Seats.OrderBy(x => x.SeatNumber).ToList();
+            hall.Seats = seats;
 
-        //    await _unitOfWork.HallRepository.AddAsync(hall);
-        //}
-
-
-
-        //public async Task DeleteAsync(HallDTO hallDTO)
-        //{
-        //    var hall = await _unitOfWork.HallRepository.GetAsync(hallDTO.HallId);
-        //    await _unitOfWork.HallRepository.DeleteAsync(hall);
-        //}
-
-
-
-        //public async Task<IEnumerable<HallDTO>> GetAllAsync()
-        //{
-        //    var halls = await _unitOfWork.HallRepository.GetAllAsync();
-        //    return halls.Select(Mappers.MapHallToDTO).ToList();
-        //}
-
-        //public async Task<HallDTO> GetAsync(Guid id)
-        //{
-        //    return Mappers.MapHallToDTO(await _unitOfWork.HallRepository.GetAsync(id));
-        //}
-
-
-
-        //public async Task Update(HallDTO hallDTO)
-        //{
-        //    var hall = await _unitOfWork.HallRepository.GetAsync(hallDTO.HallId);
-        //    hall.Seats = hallDTO.Seats;
-        //    hall.Filmshows = hallDTO.Filmshows;
-        //    await _unitOfWork.HallRepository.Update(hall);
-        //}
+            var hallDTO = _mapper.Map<HallWithSeatsForFilmshowDTO>(hall);
+            foreach(SeatFilmshowDTO seatDTO in hallDTO.Seats)
+            {
+                foreach(Ticket t in filmshow.Tickets)
+                {
+                    if( t.RowNumber == seatDTO.Row && t.SeatNumber == seatDTO.SeatNumber)
+                    {
+                        seatDTO.IsOccupied = true;
+                    }
+                }
+            }
+            return hallDTO;
+        }
     }
 }

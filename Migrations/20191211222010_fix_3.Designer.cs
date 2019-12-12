@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaWebApplication.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191202211725_HallName")]
-    partial class HallName
+    [Migration("20191211222010_fix_3")]
+    partial class fix_3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,6 +83,12 @@ namespace CinemaWebApplication.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RowsNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeatsInRowNumber")
+                        .HasColumnType("int");
+
                     b.HasKey("HallId");
 
                     b.ToTable("Halls");
@@ -119,19 +125,19 @@ namespace CinemaWebApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("FilmshowId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
 
+                    b.Property<int>("RowNumber")
+                        .HasColumnType("int");
+
                     b.Property<int>("SeatNumber")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("TicketId");
@@ -145,7 +151,7 @@ namespace CinemaWebApplication.Migrations
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -173,20 +179,20 @@ namespace CinemaWebApplication.Migrations
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Filmshow", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Film", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Film", "Film")
                         .WithMany("Filmshows")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", "Hall")
                         .WithMany("Filmshows")
                         .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -195,7 +201,7 @@ namespace CinemaWebApplication.Migrations
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Seat", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", "Hall")
                         .WithMany("Seats")
                         .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -204,15 +210,17 @@ namespace CinemaWebApplication.Migrations
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Ticket", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Filmshow", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Filmshow", "Filmshow")
                         .WithMany("Tickets")
                         .HasForeignKey("FilmshowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CinemaWebApplication.Core.Domain.User", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.User", "User")
                         .WithMany("Tickets")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

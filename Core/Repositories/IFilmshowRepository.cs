@@ -8,7 +8,9 @@ namespace CinemaWebApplication.Core.Repositories
 {
     public interface IFilmshowRepository : IRepository<Filmshow>
     {
+        Task<IEnumerable<Filmshow>> GetAllWithHallAndFilm();
         Task<IEnumerable<Filmshow>> GetAllFilmshowsOfFilmAsync(Guid id);
+        Task<Filmshow> GetFilmshowWithTicketsAsync(Guid id);
         Task<IEnumerable<Filmshow>> GetAllFilmshowsOfFilmDateAsync(Guid id, DateTime dateTime);
     }
 }

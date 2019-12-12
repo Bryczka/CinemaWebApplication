@@ -10,80 +10,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaWebApplication.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191125220202_Init")]
-    partial class Init
+    [Migration("20191211215659_fix_2")]
+    partial class fix_2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0")
+                .HasAnnotation("ProductVersion", "3.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CinemaWebApplication.Core.Domain.Client", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Login")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clients");
-                });
-
-            modelBuilder.Entity("CinemaWebApplication.Core.Domain.Employee", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Login")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Employees");
-                });
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Film", b =>
                 {
@@ -92,6 +28,12 @@ namespace CinemaWebApplication.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Length")
@@ -138,7 +80,13 @@ namespace CinemaWebApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("SeatsCount")
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RowsNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeatsInRowNumber")
                         .HasColumnType("int");
 
                     b.HasKey("HallId");
@@ -168,7 +116,7 @@ namespace CinemaWebApplication.Migrations
 
                     b.HasIndex("HallId");
 
-                    b.ToTable("Seat");
+                    b.ToTable("Seats");
                 });
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Ticket", b =>
@@ -177,39 +125,74 @@ namespace CinemaWebApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("FilmshowId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsReserved")
-                        .HasColumnType("bit");
+                    b.Property<int>("RowNumber")
+                        .HasColumnType("int");
 
                     b.Property<int>("SeatNumber")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("TicketId");
 
-                    b.HasIndex("ClientId");
-
                     b.HasIndex("FilmshowId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tickets");
                 });
 
+            modelBuilder.Entity("CinemaWebApplication.Core.Domain.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Login")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Filmshow", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Film", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Film", "Film")
                         .WithMany("Filmshows")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", "Hall")
                         .WithMany("Filmshows")
                         .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -218,7 +201,7 @@ namespace CinemaWebApplication.Migrations
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Seat", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", "Hall")
                         .WithMany("Seats")
                         .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -227,15 +210,15 @@ namespace CinemaWebApplication.Migrations
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Ticket", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Client", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Filmshow", "Filmshow")
                         .WithMany("Tickets")
-                        .HasForeignKey("ClientId")
+                        .HasForeignKey("FilmshowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CinemaWebApplication.Core.Domain.Filmshow", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.User", "User")
                         .WithMany("Tickets")
-                        .HasForeignKey("FilmshowId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

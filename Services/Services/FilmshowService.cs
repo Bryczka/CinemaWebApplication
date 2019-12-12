@@ -1,4 +1,5 @@
-﻿using CinemaWebApplication.Core;
+﻿using AutoMapper;
+using CinemaWebApplication.Core;
 using CinemaWebApplication.Core.Domain;
 using CinemaWebApplication.Services.DTO;
 using CinemaWebApplication.Services.IServices;
@@ -12,23 +13,22 @@ namespace CinemaWebApplication.Services.Services
     public class FilmshowService : IFilmshowService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public FilmshowService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public FilmshowService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public async Task AddAsync(FilmshowDTO filmshowDTO)
         {
             var filmshow = new Filmshow();
             filmshow.FilmshowId = Guid.NewGuid();
-            filmshow.FilmshowTime = filmshowDTO.FilmshowDate;
-
+            filmshow.FilmshowTime = filmshowDTO.FilmshowTime;
             filmshow.HallId = filmshowDTO.HallId;
             filmshow.FilmId = filmshowDTO.FilmId;
-            filmshow.Tickets = filmshowDTO.Tickets;
 
             await _unitOfWork.FilmshowRepository.AddAsync(filmshow);
         }
-
         public async Task DeleteAsync(FilmshowDTO filmshowDTO)
         {
             var filmshow = await _unitOfWork.FilmshowRepository.GetAsync(filmshowDTO.FilmshowId);
@@ -37,59 +37,34 @@ namespace CinemaWebApplication.Services.Services
 
         public async Task<IEnumerable<FilmshowDTO>> GetAllAsync()
         {
-            var filmshows = await _unitOfWork.FilmshowRepository.GetAllAsync();
-            List<FilmshowDTO> filmshowsDTO = new List<FilmshowDTO>();
-            foreach (Filmshow filmshow in filmshows)
-            {
-                var film = await _unitOfWork.FilmRepository.GetAsync(filmshow.FilmId);
-                var hall = await _unitOfWork.HallRepository.GetAsync(filmshow.HallId);
-                filmshowsDTO.Add(Mappers.MapFilmshowToDTO(filmshow, film, hall));
-            }
-
-            return filmshowsDTO;
+            var filmshows = await _unitOfWork.FilmshowRepository.GetAllWithHallAndFilm();
+            return _mapper.Map<IEnumerable<FilmshowDTO>>(filmshows);
         }
 
         public async Task<IEnumerable<FilmshowDTO>> GetAllFilmshowsOfFilmAsync(Guid id)
         {
             var filmshows = await _unitOfWork.FilmshowRepository.GetAllFilmshowsOfFilmAsync(id);
-            List<FilmshowDTO> filmshowsDTO = new List<FilmshowDTO>();
-            foreach (Filmshow filmshow in filmshows)
-            {
-                var film = await _unitOfWork.FilmRepository.GetAsync(filmshow.FilmId);
-                var hall = await _unitOfWork.HallRepository.GetAsync(filmshow.HallId);
-                filmshowsDTO.Add(Mappers.MapFilmshowToDTO(filmshow, film, hall));
-            }
-            return filmshowsDTO;
+            return _mapper.Map<IEnumerable<FilmshowDTO>>(filmshows);
         }
 
         public async Task<IEnumerable<FilmshowDTO>> GetAllFilmshowsOfFilmAsync(Guid id, DateTime dateTime)
         {
             var filmshows = await _unitOfWork.FilmshowRepository.GetAllFilmshowsOfFilmDateAsync(id, dateTime);
-            List<FilmshowDTO> filmshowsDTO = new List<FilmshowDTO>();
-            foreach (Filmshow filmshow in filmshows)
-            {
-                var film = await _unitOfWork.FilmRepository.GetAsync(filmshow.FilmId);
-                var hall = await _unitOfWork.HallRepository.GetAsync(filmshow.HallId);
-                filmshowsDTO.Add(Mappers.MapFilmshowToDTO(filmshow, film, hall));
-            }
-            return filmshowsDTO;
+            return _mapper.Map<IEnumerable<FilmshowDTO>>(filmshows); ;
         }
 
         public async Task<FilmshowDTO> GetAsync(Guid id)
         {
             var filmshow = await _unitOfWork.FilmshowRepository.GetAsync(id);
-            var film = await _unitOfWork.FilmRepository.GetAsync(filmshow.FilmId);
-            var hall = await _unitOfWork.HallRepository.GetAsync(filmshow.HallId);
-            return Mappers.MapFilmshowToDTO(await _unitOfWork.FilmshowRepository.GetAsync(id), film, hall);
+            return _mapper.Map<FilmshowDTO>(filmshow);
         }
 
         public async Task Update(FilmshowDTO filmshowDTO)
         {
             var filmshow = await _unitOfWork.FilmshowRepository.GetAsync(filmshowDTO.FilmshowId);
-            filmshow.FilmshowTime = filmshowDTO.FilmshowDate;
+            filmshow.FilmshowTime = filmshowDTO.FilmshowTime;
             filmshow.HallId = filmshowDTO.HallId;
             filmshow.FilmId = filmshowDTO.FilmId;
-            filmshow.Tickets = filmshowDTO.Tickets;
             await _unitOfWork.FilmshowRepository.Update(filmshow);
         }
     }

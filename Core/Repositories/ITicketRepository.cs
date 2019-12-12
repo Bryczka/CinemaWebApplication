@@ -11,6 +11,7 @@ namespace CinemaWebApplication.Core.Repositories
         Task<IEnumerable<Ticket>> GetUserTicketsAsync(Guid id);
         Task AddTicketsAsync(IEnumerable<Ticket> ticketsToAdd);
         Task<IEnumerable<Ticket>> GetAllUserTickets(Guid id);
-
+        Task<IEnumerable<Ticket>> GetAllFilmshowTickets(Guid id);
+        
     }
 }

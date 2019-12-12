@@ -19,7 +19,7 @@ namespace CinemaWebApplication.Infrastructure.Repositories
 
         public async Task<IEnumerable<Film>> GetAllFilmsWithFilmShowsAsync()
         {
-            return await _context.Films.Include(x => x.Filmshows).ToListAsync();
+            return await _context.Films.ToListAsync();
         }
 
         public async Task<Film> GetFilmWithFilmShowsAsync(Guid id)

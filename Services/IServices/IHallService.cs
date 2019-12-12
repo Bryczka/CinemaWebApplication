@@ -10,6 +10,7 @@ namespace CinemaWebApplication.Services.IServices
     {
         Task AddWithSeatsAsync(HallWithSeatsDTO hallWithSeatsDTO);
         Task<HallWithSeatsDTO> GetHallWithSeatsAsync(Guid id);
+        Task<HallWithSeatsForFilmshowDTO> GetHallWithSeatsForFilmshowAsync(Guid id, Guid filmshowId);
         Task DeleteHallWithSeatsAsync(Guid hallId);
         Task<IEnumerable<HallWithSeatsDTO>> GetAllHallsWithSeatsAsync();
 

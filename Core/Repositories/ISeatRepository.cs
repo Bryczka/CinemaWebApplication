@@ -8,7 +8,7 @@ namespace CinemaWebApplication.Core.Repositories
 {
     public interface ISeatRepository : IRepository<Seat>
     {
-        Task BookSeatAsync(List<Seat> seats);
-        Task UnbookSeatAsync(List<Seat> seats);
+        //Task BookSeatAsync(List<Seat> seats);
+        //Task UnbookSeatAsync(List<Seat> seats);
     }
 }

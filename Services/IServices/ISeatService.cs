@@ -8,8 +8,8 @@ namespace CinemaWebApplication.Services.IServices
 {
     public interface ISeatService
     {
-        Task BookSeatAsync(List<SeatDTO> seats);
-        Task UnbookSeatAsync(List<SeatDTO> seats);
+        //Task BookSeatAsync(List<SeatDTO> seats);
+        //Task UnbookSeatAsync(List<SeatDTO> seats);
         Task AddManyWithHallAsync(HallWithSeatsDTO hallWithSeatsDTO);
     }
 }

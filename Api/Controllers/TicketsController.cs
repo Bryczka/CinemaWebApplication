@@ -21,10 +21,16 @@ namespace CinemaWebApplication.Api.Controllers
             _seatService = seatService;
         }
 
-        [HttpGet("tickets/{id}")]
-        public async Task<IEnumerable<TicketDTO>> GetAllUserTickets(Guid id)
+        [HttpGet("tickets/filmshow/{id}")]
+        public async Task<IEnumerable<TicketForUserDTO>> GetAllFilmshowTickets(Guid id)
         {
-           return await _ticketService.GetAllUserTickets(id);
+            return await _ticketService.GetAllFilmshowTickets(id);
+        }
+
+        [HttpGet("tickets/{id}")]
+        public async Task<IEnumerable<TicketForUserDTO>> GetAllUserTickets(Guid id)
+        {
+            return await _ticketService.GetAllUserTickets(id);
         }
 
         [HttpPost]
@@ -35,12 +41,12 @@ namespace CinemaWebApplication.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("seats")]
-        public async Task<ActionResult> BookSeat([FromBody]List<SeatDTO> seats)
-        {
-            await _seatService.BookSeatAsync(seats);
+        //[HttpPut("seats")]
+        //public async Task<ActionResult> BookSeat([FromBody]List<SeatDTO> seats)
+        //{
+        //    await _seatService.BookSeatAsync(seats);
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
     }
 }

@@ -25,12 +25,24 @@ namespace CinemaWebApplication.Infrastructure.Repositories
 
         public async Task<IEnumerable<Ticket>> GetAllUserTickets(Guid id)
         {
-            return await _context.Tickets.Where(x => x.ClientId == id).ToListAsync();
+            return await _context.Tickets.Where(x => x.User.UserId == id)
+                .Include(x => x.Filmshow.Hall)
+                .Include(x => x.Filmshow.Film)
+                .Include(x => x.Filmshow).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Ticket>> GetAllFilmshowTickets(Guid id)
+        {
+            return await _context.Tickets.Where(x => x.FilmshowId == id)
+                .Include(x => x.Filmshow.Hall)
+                .Include(x => x.Filmshow.Film)
+                .Include(x => x.Filmshow).ToListAsync();
         }
 
         public async Task<IEnumerable<Ticket>> GetUserTicketsAsync(Guid id)
         {
-            return await _context.Tickets.Where(x => x.ClientId.Equals(id)).ToListAsync();
+            return await _context.Tickets.Where(x => x.User.UserId.Equals(id)).ToListAsync();
         }
     }
 }
+

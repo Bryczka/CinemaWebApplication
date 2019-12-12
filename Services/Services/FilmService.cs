@@ -1,4 +1,5 @@
-﻿using CinemaWebApplication.Core;
+﻿using AutoMapper;
+using CinemaWebApplication.Core;
 using CinemaWebApplication.Core.Domain;
 using CinemaWebApplication.Services.DTO;
 using CinemaWebApplication.Services.IServices;
@@ -13,21 +14,23 @@ namespace CinemaWebApplication.Services.Services
     public class FilmService : IFilmService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public FilmService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+
+        public FilmService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task AddAsync(FilmDTO filmDTO)
         {
             var film = new Film
             {
-                FilmId = new Guid(),
+                FilmId = Guid.NewGuid(),
                 Title = filmDTO.Title,
                 Category = filmDTO.Category,
                 Length = filmDTO.Length,
                 Rating = filmDTO.Rating,
-                Filmshows = filmDTO.Filmshows,
                 Description = filmDTO.Description,
                 ImagePath = Base64Converter.ConvertBase64ToFile(filmDTO.ImageBase64.Substring(23))
             };
@@ -43,13 +46,13 @@ namespace CinemaWebApplication.Services.Services
         public async Task<IEnumerable<FilmDTO>> GetAllFilmsWithFilmShowsAsync()
         {
             var films = await _unitOfWork.FilmRepository.GetAllFilmsWithFilmShowsAsync();
-            return films.Select(Mappers.MapFilmToDTO).ToList();
+            return _mapper.Map<IEnumerable<FilmDTO>>(films);
         }
 
         public async Task<FilmDTO> GetFilmWithFilmShowsAsync(Guid id)
         {
             var film = await _unitOfWork.FilmRepository.GetFilmWithFilmShowsAsync(id);
-            return Mappers.MapFilmToDTO(film);
+            return _mapper.Map<FilmDTO>(film);
         }
 
         public async Task Update(FilmDTO filmDTO)
@@ -59,7 +62,6 @@ namespace CinemaWebApplication.Services.Services
             film.Category = filmDTO.Category;
             film.Length = filmDTO.Length;
             film.Rating = filmDTO.Rating;
-            film.Filmshows = filmDTO.Filmshows;
             film.Description = filmDTO.Description;
             await _unitOfWork.FilmRepository.Update(film);
         }

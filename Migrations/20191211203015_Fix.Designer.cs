@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaWebApplication.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191128125524_Base64-FilmPhoto")]
-    partial class Base64FilmPhoto
+    [Migration("20191211203015_Fix")]
+    partial class Fix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,6 +28,9 @@ namespace CinemaWebApplication.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagePath")
@@ -77,7 +80,13 @@ namespace CinemaWebApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("SeatsCount")
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RowsNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeatsInRowNumber")
                         .HasColumnType("int");
 
                     b.HasKey("HallId");
@@ -124,6 +133,9 @@ namespace CinemaWebApplication.Migrations
 
                     b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
+
+                    b.Property<int>("RowNumber")
+                        .HasColumnType("int");
 
                     b.Property<int>("SeatNumber")
                         .HasColumnType("int");
@@ -177,13 +189,13 @@ namespace CinemaWebApplication.Migrations
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Filmshow", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Film", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Film", "Film")
                         .WithMany("Filmshows")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", "Hall")
                         .WithMany("Filmshows")
                         .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -192,7 +204,7 @@ namespace CinemaWebApplication.Migrations
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Seat", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Hall", "Hall")
                         .WithMany("Seats")
                         .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -201,13 +213,13 @@ namespace CinemaWebApplication.Migrations
 
             modelBuilder.Entity("CinemaWebApplication.Core.Domain.Ticket", b =>
                 {
-                    b.HasOne("CinemaWebApplication.Core.Domain.Filmshow", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.Filmshow", "Filmshow")
                         .WithMany("Tickets")
                         .HasForeignKey("FilmshowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CinemaWebApplication.Core.Domain.User", null)
+                    b.HasOne("CinemaWebApplication.Core.Domain.User", "User")
                         .WithMany("Tickets")
                         .HasForeignKey("UserId");
                 });

@@ -10,7 +10,7 @@ namespace CinemaWebApplication.Services.DTO
         public Guid SeatId { get; set; }
         public int SeatNumber { get; set; }
         public int Row { get; set; }
-        public bool IsOccupied { get; set; }
+        //public bool IsOccupied { get; set; }
         public Guid HallId { get; set; }
     }
 }

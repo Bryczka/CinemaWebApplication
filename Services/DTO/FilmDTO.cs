@@ -15,6 +15,6 @@ namespace CinemaWebApplication.Services.DTO
         public int Rating { get; set; }
         public string Description { get; set; }
         public string ImageBase64 { get; set; }
-        public ICollection<Filmshow> Filmshows { get; set; }
+        public ICollection<FilmshowDTO> Filmshows { get; set; }
     }
 }

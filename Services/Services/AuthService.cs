@@ -33,7 +33,7 @@ namespace CinemaWebApplication.Services.Services
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Name, user.Login),
                 new Claim(ClaimTypes.Role, user.Role)
             };
@@ -79,7 +79,7 @@ namespace CinemaWebApplication.Services.Services
 
             var user = new User
             {
-                Id = new Guid(),
+                UserId = new Guid(),
                 Login = userRegisterDTO.Login,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,

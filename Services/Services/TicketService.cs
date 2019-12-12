@@ -1,4 +1,5 @@
-﻿using CinemaWebApplication.Core;
+﻿using AutoMapper;
+using CinemaWebApplication.Core;
 using CinemaWebApplication.Core.Domain;
 using CinemaWebApplication.Services.DTO;
 using CinemaWebApplication.Services.IServices;
@@ -12,9 +13,11 @@ namespace CinemaWebApplication.Services.Services
     public class TicketService : ITicketService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public TicketService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public TicketService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public async Task AddAsync(TicketDTO ticketDTO)
         {
@@ -24,7 +27,7 @@ namespace CinemaWebApplication.Services.Services
             ticket.RowNumber = ticketDTO.RowNumber;
             ticket.IsPaid = ticketDTO.IsPaid;
             ticket.FilmshowId = ticketDTO.FilmshowId;
-            ticket.ClientId = ticketDTO.ClientId;
+            ticket.UserId = ticketDTO.UserId;
 
             await _unitOfWork.TicketRepository.AddAsync(ticket);
         }
@@ -32,7 +35,7 @@ namespace CinemaWebApplication.Services.Services
         public async Task AddTicketsAsync(IEnumerable<TicketDTO> ticketsToAdd)
         {
             List<Ticket> tickets = new List<Ticket>();
-            foreach(TicketDTO ticketDTO in ticketsToAdd)
+            foreach (TicketDTO ticketDTO in ticketsToAdd)
             {
                 var ticket = new Ticket();
                 ticket.TicketId = new Guid();
@@ -40,10 +43,9 @@ namespace CinemaWebApplication.Services.Services
                 ticket.RowNumber = ticketDTO.RowNumber;
                 ticket.IsPaid = ticketDTO.IsPaid;
                 ticket.FilmshowId = ticketDTO.FilmshowId;
-                ticket.ClientId = ticketDTO.ClientId;
+                ticket.UserId = ticketDTO.UserId;
                 tickets.Add(ticket);
             }
-
             await _unitOfWork.TicketRepository.AddTicketsAsync(tickets);
         }
 
@@ -56,18 +58,25 @@ namespace CinemaWebApplication.Services.Services
         public async Task<IEnumerable<TicketDTO>> GetAllAsync()
         {
             var tickets = await _unitOfWork.TicketRepository.GetAllAsync();
-            return tickets.Select(Mappers.MapTicketToDTO).ToList();
+            return _mapper.Map<IEnumerable<TicketDTO>>(tickets);
+                
         }
 
-        public async Task<IEnumerable<TicketDTO>> GetAllUserTickets(Guid id)
+        public async Task<IEnumerable<TicketForUserDTO>> GetAllUserTickets(Guid id)
         {
             var tickets = await _unitOfWork.TicketRepository.GetAllUserTickets(id);
-            return tickets.Select(Mappers.MapTicketToDTO).ToList();
+            return _mapper.Map<IEnumerable<TicketForUserDTO>>(tickets);
+        }
+
+        public async Task<IEnumerable<TicketForUserDTO>> GetAllFilmshowTickets(Guid id)
+        {
+            var tickets = await _unitOfWork.TicketRepository.GetAllFilmshowTickets(id);
+            return _mapper.Map<IEnumerable<TicketForUserDTO>>(tickets);
         }
 
         public async Task<TicketDTO> GetAsync(Guid id)
         {
-            return Mappers.MapTicketToDTO(await _unitOfWork.TicketRepository.GetAsync(id));
+            return _mapper.Map<TicketDTO>(await _unitOfWork.TicketRepository.GetAsync(id));
         }
 
         public async Task Update(TicketDTO ticketDTO)
@@ -77,7 +86,7 @@ namespace CinemaWebApplication.Services.Services
             ticket.SeatNumber = ticketDTO.SeatNumber;
             ticket.RowNumber = ticketDTO.RowNumber;
             ticket.FilmshowId = ticketDTO.FilmshowId;
-            ticket.ClientId = ticketDTO.ClientId;
+            ticket.UserId = ticketDTO.UserId;
             await _unitOfWork.TicketRepository.Update(ticket);
         }
     }

@@ -3,46 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CinemaWebApplication.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Clients",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
-                    Login = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Role = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clients", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
-                    Login = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Role = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Films",
                 columns: table => new
@@ -51,7 +15,9 @@ namespace CinemaWebApplication.Migrations
                     Title = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: true),
                     Length = table.Column<string>(nullable: true),
-                    Rating = table.Column<int>(nullable: false)
+                    Rating = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    ImagePath = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -63,11 +29,32 @@ namespace CinemaWebApplication.Migrations
                 columns: table => new
                 {
                     HallId = table.Column<Guid>(nullable: false),
-                    SeatsCount = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    RowsNumber = table.Column<int>(nullable: false),
+                    SeatsInRowNumber = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Halls", x => x.HallId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Surname = table.Column<string>(nullable: true),
+                    Login = table.Column<string>(nullable: true),
+                    PasswordHash = table.Column<byte[]>(nullable: true),
+                    PasswordSalt = table.Column<byte[]>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Role = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,8 +63,8 @@ namespace CinemaWebApplication.Migrations
                 {
                     FilmshowId = table.Column<Guid>(nullable: false),
                     FilmshowTime = table.Column<DateTime>(nullable: false),
-                    FilmId = table.Column<Guid>(nullable: false),
-                    HallId = table.Column<Guid>(nullable: false)
+                    FilmId = table.Column<Guid>(nullable: true),
+                    HallId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -87,34 +74,34 @@ namespace CinemaWebApplication.Migrations
                         column: x => x.FilmId,
                         principalTable: "Films",
                         principalColumn: "FilmId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Filmshows_Halls_HallId",
                         column: x => x.HallId,
                         principalTable: "Halls",
                         principalColumn: "HallId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Seat",
+                name: "Seats",
                 columns: table => new
                 {
                     SeatId = table.Column<Guid>(nullable: false),
                     SeatNumber = table.Column<int>(nullable: false),
                     Row = table.Column<int>(nullable: false),
                     IsOccupied = table.Column<bool>(nullable: false),
-                    HallId = table.Column<Guid>(nullable: false)
+                    HallId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Seat", x => x.SeatId);
+                    table.PrimaryKey("PK_Seats", x => x.SeatId);
                     table.ForeignKey(
-                        name: "FK_Seat_Halls_HallId",
+                        name: "FK_Seats_Halls_HallId",
                         column: x => x.HallId,
                         principalTable: "Halls",
                         principalColumn: "HallId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,26 +110,26 @@ namespace CinemaWebApplication.Migrations
                 {
                     TicketId = table.Column<Guid>(nullable: false),
                     SeatNumber = table.Column<int>(nullable: false),
+                    RowNumber = table.Column<int>(nullable: false),
                     IsPaid = table.Column<bool>(nullable: false),
-                    IsReserved = table.Column<bool>(nullable: false),
-                    ClientId = table.Column<Guid>(nullable: false),
-                    FilmshowId = table.Column<Guid>(nullable: false)
+                    UserId = table.Column<Guid>(nullable: true),
+                    FilmshowId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tickets", x => x.TicketId);
                     table.ForeignKey(
-                        name: "FK_Tickets_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Tickets_Filmshows_FilmshowId",
                         column: x => x.FilmshowId,
                         principalTable: "Filmshows",
                         principalColumn: "FilmshowId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -156,37 +143,34 @@ namespace CinemaWebApplication.Migrations
                 column: "HallId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Seat_HallId",
-                table: "Seat",
+                name: "IX_Seats_HallId",
+                table: "Seats",
                 column: "HallId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tickets_ClientId",
-                table: "Tickets",
-                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_FilmshowId",
                 table: "Tickets",
                 column: "FilmshowId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_UserId",
+                table: "Tickets",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "Seat");
+                name: "Seats");
 
             migrationBuilder.DropTable(
                 name: "Tickets");
 
             migrationBuilder.DropTable(
-                name: "Clients");
+                name: "Filmshows");
 
             migrationBuilder.DropTable(
-                name: "Filmshows");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Films");

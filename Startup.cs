@@ -9,6 +9,7 @@ using CinemaWebApplication.Core.Domain;
 using CinemaWebApplication.Core.Repositories;
 using CinemaWebApplication.Infrastructure;
 using CinemaWebApplication.Infrastructure.Repositories;
+using CinemaWebApplication.Services.DTO.Utils;
 using CinemaWebApplication.Services.IServices;
 using CinemaWebApplication.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -54,6 +55,8 @@ namespace CinemaWebApplication
             services.AddScoped<IHallService, HallService>();
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<ISeatService, SeatService>();
+
+            services.AddSingleton(MapperConfig.Initialize());
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {

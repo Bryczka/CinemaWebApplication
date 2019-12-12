@@ -52,5 +52,12 @@ namespace CinemaWebApplication.Api.Controllers
             var hall = await _hallService.GetHallWithSeatsAsync(id);
             return Json(hall);
         }
+
+        [HttpGet("{id}/{filmshowId}")]
+        public async Task<ActionResult<HallWithSeatsDTO>> GetHallWithSeatsFilmshowAsync(Guid id, Guid filmshowId)
+        {
+            var hall = await _hallService.GetHallWithSeatsForFilmshowAsync(id, filmshowId);
+            return Json(hall);
+        }
     }
 }
