@@ -11,6 +11,8 @@ namespace CinemaWebApplication.Services.IServices
     {
         Task<UserRegisterDTO> RegisterAsync(UserRegisterDTO userRegisterDTO);
         Task<TokenDTO> LoginAsync(UserLoginDTO userLoginDTO);
-        Task<bool> UserExist(string login);
+        Task<bool> IsLoginNameExist(string login);
+        Task<bool> IsEmailNameExist(string email);
+
     }
 }

@@ -35,6 +35,7 @@ namespace CinemaWebApplication.Api.Controllers
             return Json(film);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> AddAsync([FromBody]FilmDTO filmDTO)
         {
@@ -43,6 +44,7 @@ namespace CinemaWebApplication.Api.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "employee")]
         [HttpDelete("film/{id}")]
         public async Task<ActionResult> DeleteAsync(Guid id)
         {
@@ -51,6 +53,7 @@ namespace CinemaWebApplication.Api.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "employee")]
         [HttpPut("film")]
         public async Task<ActionResult> Update([FromBody]FilmDTO filmDTO)
         {

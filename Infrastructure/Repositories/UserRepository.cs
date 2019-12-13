@@ -21,5 +21,18 @@ namespace CinemaWebApplication.Infrastructure.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.Login == login);
         }
+
+        public async Task<bool> IsLoginNameExist(string login)
+        {
+            var users = await _context.Users.ToListAsync();
+            return users.Exists(x => x.Login.Equals(login));
+                
+        }
+
+        public async Task<bool> IsEmailNameExist(string email)
+        {
+            var users = await _context.Users.ToListAsync();
+            return users.Exists(x => x.Email.Equals(email));
+        }
     }
 }

@@ -32,9 +32,13 @@ namespace CinemaWebApplication.Api.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody]UserRegisterDTO userRegisterDTO)
         {
-            if (await _authService.UserExist(userRegisterDTO.Login))
+            if (await _authService.IsLoginNameExist(userRegisterDTO.Login))
             {
-                return BadRequest("Username already exists");
+                return  BadRequest("Login already exists");
+            }
+            if (await _authService.IsEmailNameExist(userRegisterDTO.Email))
+            {
+                return BadRequest("Login already exists");
             }
 
             await _authService.RegisterAsync(userRegisterDTO);

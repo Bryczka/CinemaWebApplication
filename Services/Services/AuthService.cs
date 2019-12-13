@@ -104,10 +104,14 @@ namespace CinemaWebApplication.Services.Services
             }
         }
 
-        public async Task<bool> UserExist(string login)
+        public async Task<bool> IsLoginNameExist(string login)
         {
-            if (await _unitOfWork.UserRepository.GetUserByLogin(login) != null) { return true; }
-            return false;
+            return await _unitOfWork.UserRepository.IsLoginNameExist(login);
+        }
+
+        public async Task<bool> IsEmailNameExist(string email)
+        {
+            return await _unitOfWork.UserRepository.IsEmailNameExist(email);
         }
     }
 }
